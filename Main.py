@@ -1,29 +1,46 @@
-# Calculating the output of a single Neuron in a Neural Network.
-inputs = [1, 2, 3, 2.5]
+import numpy as np
+# Calculating the output of multiple Neurons in a Neural Network using custom algorithm
+inputs1 = [1, 2, 3, 2.5]
 
-# Neuron 1
-weight1 = [0.2, 0.8, -0.5, 1.0]
-bias1 = 2
+# Neurons
+weights1 = [
+    [0.2, 0.8, -0.5, 1.0],
+    [0.5, -0.91, 0.26, -0.5],
+    [-0.26, -0.27, 0.17, 0.87]
+]
 
-# Neuron 2
-weight2 = [0.5, -0.91, 0.26, -0.5]
-bias2 = 3
+# Biases
+biases1 = [2, 3, 0.5]
 
-# Neuron 3
-weight3 = [-0.26, -0.27, 0.17, 0.87]
-bias3 = 0.5
-
-# Output
-output1 = 0
-output2 = 0
-output3 = 0
+# Outputs
+outputs = [0, 0, 0]
 
 # Summation
 for i in range(len(inputs)):
-    output1 += inputs[i] * weight1[i]
-    output2 += inputs[i] * weight2[i]
-    output3 += inputs[i] * weight3[i]
+    outputs[0] += inputs1[i] * weights1[0][i]
+    outputs[1] += inputs1[i] * weights1[1][i]
+    outputs[2] += inputs1[i] * weights1[2][i]
 
-print(output1 + bias1)
-print(output2 + bias2)
-print(output3 + bias3)
+print(outputs)
+
+
+
+
+
+# Calculating the output of multiple Neurons in a Neural Network using dot method in more efficent way
+inputs2 = [1, 2, 3, 2.5]
+
+# Neurons
+weights2 = [
+    [0.2, 0.8, -0.5, 1.0],
+    [0.5, -0.91, 0.26, -0.5],
+    [-0.26, -0.27, 0.17, 0.87]
+]
+
+# Biases
+biases2 = [2, 3, 0.5]
+
+# Summation
+output = np.dot(weights2, inputs2) + biases2
+
+print(output)
