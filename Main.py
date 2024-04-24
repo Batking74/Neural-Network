@@ -1,46 +1,82 @@
 import numpy as np
-# Calculating the output of multiple Neurons in a Neural Network using custom algorithm
-inputs1 = [1, 2, 3, 2.5]
+import math
 
-# Neurons
-weights1 = [
+# Basic implementation of a Neural Network for classification tasks, utilizing ReLU and Softmax Activation Functions.
+
+# Training Data
+X = [
+    [1, 2, 3, 2.5],
+    [2.0, 5.0, -1.0, 2.0],
+    [-1.5, 2.7, 3.3, -0.8]
+]
+
+# Weights
+W = [
     [0.2, 0.8, -0.5, 1.0],
     [0.5, -0.91, 0.26, -0.5],
     [-0.26, -0.27, 0.17, 0.87]
 ]
 
-# Biases
-biases1 = [2, 3, 0.5]
-
-# Outputs
-outputs = [0, 0, 0]
-
-# Summation
-for i in range(len(inputs)):
-    outputs[0] += inputs1[i] * weights1[0][i]
-    outputs[1] += inputs1[i] * weights1[1][i]
-    outputs[2] += inputs1[i] * weights1[2][i]
-
-print(outputs)
+# Bias
+B = [2, 3, 2]
 
 
+# Rectified Linear Unit Activation Function
+def ReLU(outputs):
+    activated = []
+    for output in outputs:
+        if(output > 0):
+            activated.append(output)
+        else:
+            activated.append(0)
+    return activated
 
 
+def normalizeExpValues(exp_values):
+    exp_sum = 0
+    normalized_values = []
+    for exp_val in exp_values:
+        exp_sum += exp_val
 
-# Calculating the output of multiple Neurons in a Neural Network using dot method in more efficent way
-inputs2 = [1, 2, 3, 2.5]
+    for exp_val in exp_values:
+        normalized_values.append(exp_val / exp_sum)
+    return normalized_values
 
-# Neurons
-weights2 = [
-    [0.2, 0.8, -0.5, 1.0],
-    [0.5, -0.91, 0.26, -0.5],
-    [-0.26, -0.27, 0.17, 0.87]
-]
 
-# Biases
-biases2 = [2, 3, 0.5]
+def softmaxActivation(x):
+    # Exponential Funtion: math.e = Euler's Number
+    exp_values = [math.e ** i for i in x]
+    return normalizeExpValues(exp_values)
 
-# Summation
-output = np.dot(weights2, inputs2) + biases2
+
+# Forward Propagation
+def forwardPropagation():
+    outputs = [0, 0, 0]
+    for i in range(len(X)):
+        for j in range(len(X[0])):
+            outputs[i] += W[i][j] * X[i][j]
+        outputs[i] += B[i]
+    outputs = ReLU(outputs)
+    outputs = softmaxActivation(outputs)
+    return outputs
+
+output = forwardPropagation()
 
 print(output)
+
+
+
+
+
+# Extra Help
+softmax_outputs = np.array([
+    [0.7, 0.1, 0.2],
+    [0.1, 0.5, 0.4],
+    [0.02, 0.9, 0.08],
+])
+
+# class meaning: Dog, Cat, Tiger, etc
+class_targets = [0, 1, 1]
+
+# Row column
+print(softmax_outputs[[0, 1, 2], class_targets])
